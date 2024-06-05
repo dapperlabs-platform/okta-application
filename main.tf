@@ -1,6 +1,6 @@
 
 resource "okta_app_saml" "saml_app" {
-  label                    = var.label
+  label                    = var.name
   sso_url                  = var.sso_url
   recipient                = var.recipient
   destination              = var.destination
@@ -34,7 +34,7 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
 }
 
 resource "google_secret_manager_secret" "okta_app_cert" {
-  secret_id = "${var.product}-${var.enviroment}-okta-app-cert"
+  secret_id = "${var.name}-okta-app-cert"
   replication {
     auto {}
   }

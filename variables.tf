@@ -1,6 +1,6 @@
-variable "label" {
+variable "name" {
   type        = string
-  description = "Label for the Okta Application"
+  description = "Name of the Okta Application"
 }
 
 variable "sso_url" {
@@ -30,12 +30,3 @@ variable "groups" {
   }))
 }
 
-variable "product" {
-  type        = string
-  description = "Product name"
-}
-
-variable "enviroment" {
-  type        = string
-  description = "Environment name"
-}
