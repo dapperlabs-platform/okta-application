@@ -22,7 +22,7 @@ resource "okta_app_saml" "saml_app" {
 }
 
 resource "okta_app_group_assignments" "app_groups_assignments" {
-  app_id = okta_app_saml.argocd_app.id
+  app_id = okta_app_saml.saml_app.id
 
   dynamic "group" {
     for_each = var.groups
