@@ -41,6 +41,6 @@ resource "google_secret_manager_secret" "okta_app_cert" {
 }
 
 resource "google_secret_manager_secret_version" "okta_app_cert_latest" {
-  secret      = google_secret_manager_secret.okta_argocd_app_cert.id
-  secret_data = base64encode(okta_app_saml.argocd_app.certificate)
+  secret      = google_secret_manager_secret.okta_app_cert.id
+  secret_data = base64encode(okta_app_saml.saml_app.certificate)
 }
