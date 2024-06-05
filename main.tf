@@ -1,5 +1,5 @@
 
-resource "okta_app_saml" "argocd_app" {
+resource "okta_app_saml" "saml_app" {
   label                    = var.label
   sso_url                  = var.sso_url
   recipient                = var.recipient
@@ -21,7 +21,7 @@ resource "okta_app_saml" "argocd_app" {
   }
 }
 
-resource "okta_app_group_assignments" "argocd_groups" {
+resource "okta_app_group_assignments" "app_groups_assignments" {
   app_id = okta_app_saml.argocd_app.id
 
   dynamic "group" {
@@ -33,14 +33,14 @@ resource "okta_app_group_assignments" "argocd_groups" {
   }
 }
 
-resource "google_secret_manager_secret" "okta_argocd_app_cert" {
-  secret_id = "${var.product}-${var.enviroment}-okta-argocd-app-cert"
+resource "google_secret_manager_secret" "okta_app_cert" {
+  secret_id = "${var.product}-${var.enviroment}-okta-app-cert"
   replication {
     auto {}
   }
 }
 
-resource "google_secret_manager_secret_version" "okta_argocd_app_cert_latest" {
+resource "google_secret_manager_secret_version" "okta_app_cert_latest" {
   secret      = google_secret_manager_secret.okta_argocd_app_cert.id
   secret_data = base64encode(okta_app_saml.argocd_app.certificate)
 }
