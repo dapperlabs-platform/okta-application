@@ -21,6 +21,10 @@ resource "okta_app_saml" "saml_app" {
   }
 }
 
+output "sso_url" {
+  value = okta_app_saml.saml_app.sso_url
+}
+
 resource "okta_app_group_assignments" "app_groups_assignments" {
   app_id = okta_app_saml.saml_app.id
 
