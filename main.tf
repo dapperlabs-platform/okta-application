@@ -49,7 +49,7 @@ resource "google_secret_manager_secret" "okta_app_sso_url" {
 
 resource "google_secret_manager_secret_version" "okta_app_sso_url_latest" {
   secret      = google_secret_manager_secret.okta_app_cert.id
-  secret_data = "okta_app_saml.saml_app.embed_url"
+  secret_data = okta_app_saml.saml_app.embed_url
 }
 
 resource "google_secret_manager_secret" "okta_app_cert" {
