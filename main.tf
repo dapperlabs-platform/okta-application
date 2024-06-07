@@ -14,11 +14,18 @@ resource "okta_app_saml" "saml_app" {
   authn_context_class_ref  = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"
 
   attribute_statements {
+    type   = "EXPRESSION"
+    name   = "email"
+    values = ["user.email"]
+  }
+
+  attribute_statements {
     type         = "GROUP"
     name         = "groups"
     filter_type  = "REGEX"
     filter_value = ".*"
   }
+
 }
 
 resource "okta_app_group_assignments" "app_groups_assignments" {
@@ -33,6 +40,18 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
   }
 }
 
+resource "google_secret_manager_secret" "okta_app_sso_url" {
+  secret_id = "${var.name}-okta-app-sso-url"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "okta_app_sso_url_latest" {
+  secret      = google_secret_manager_secret.okta_app_sso_url.id
+  secret_data = okta_app_saml.saml_app.http_post_binding
+}
+
 resource "google_secret_manager_secret" "okta_app_cert" {
   secret_id = "${var.name}-okta-app-cert"
   replication {
@@ -42,5 +61,5 @@ resource "google_secret_manager_secret" "okta_app_cert" {
 
 resource "google_secret_manager_secret_version" "okta_app_cert_latest" {
   secret      = google_secret_manager_secret.okta_app_cert.id
-  secret_data = base64encode(okta_app_saml.saml_app.certificate)
+  secret_data = base64encode("-----BEGIN CERTIFICATE-----\n${okta_app_saml.saml_app.certificate}\n-----END CERTIFICATE-----\n")
 }
