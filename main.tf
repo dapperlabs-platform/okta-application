@@ -16,7 +16,7 @@ resource "okta_app_saml" "saml_app" {
   attribute_statements {
     type   = "EXPRESSION"
     name   = "email"
-    values = "user.email"
+    values = ["user.email"]
   }
 
   attribute_statements {
