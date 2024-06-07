@@ -33,6 +33,18 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
   }
 }
 
+resource "google_secret_manager_secret" "okta_app_sso_url" {
+  secret_id = "${var.name}-okta-app-sso-url"
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "okta_app_sso_url_latest" {
+  secret      = google_secret_manager_secret.okta_app_cert.id
+  secret_data = "okta_app_saml.saml_app.embed_url"
+}
+
 resource "google_secret_manager_secret" "okta_app_cert" {
   secret_id = "${var.name}-okta-app-cert"
   replication {
