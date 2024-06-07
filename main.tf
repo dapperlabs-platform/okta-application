@@ -14,11 +14,18 @@ resource "okta_app_saml" "saml_app" {
   authn_context_class_ref  = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"
 
   attribute_statements {
+    type   = "EXPRESSION"
+    name   = "email"
+    values = "user.email"
+  }
+
+  attribute_statements {
     type         = "GROUP"
     name         = "groups"
     filter_type  = "REGEX"
     filter_value = ".*"
   }
+
 }
 
 resource "okta_app_group_assignments" "app_groups_assignments" {
