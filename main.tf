@@ -5,6 +5,7 @@ resource "okta_app_saml" "saml_app" {
   recipient                = var.recipient
   destination              = var.destination
   audience                 = var.audience
+  hide_web                 = var.hide_web
   subject_name_id_template = "$${user.userName}"
   subject_name_id_format   = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
   response_signed          = true

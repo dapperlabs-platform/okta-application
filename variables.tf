@@ -23,6 +23,12 @@ variable "audience" {
   description = "Audience URL"
 }
 
+variable "hide_web" {
+  type        = bool
+  default     = false
+  description = "Hide application on Okta Web dashboard"
+}
+
 variable "groups" {
   type = map(object({
     id       = string
