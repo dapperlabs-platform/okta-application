@@ -10,16 +10,19 @@ variable "sso_url" {
 
 variable "recipient" {
   type        = string
+  default     = ""
   description = "Recipient URL"
 }
 
 variable "destination" {
   type        = string
+  default     = ""
   description = "Destination URL"
 }
 
 variable "audience" {
   type        = string
+  default     = ""
   description = "Audience URL"
 }
 
@@ -29,10 +32,9 @@ variable "hide_web" {
   description = "Hide application on Okta Web dashboard"
 }
 
-variable "groups" {
-  type = map(object({
-    id       = string
-    priority = number
-  }))
+variable "okta_groups" {
+  type        = list(string)
+  description = "list of Okta groups to assign to the app"
+  default     = []
 }
 
