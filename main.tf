@@ -1,5 +1,6 @@
 data "okta_group" "group_id" {
-  name = each.key
+  count = length(var.okta_groups)
+  name  = var.okta_group.names[count.index]
 }
 
 resource "okta_app_saml" "saml_app" {
@@ -38,7 +39,7 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
   dynamic "group" {
     for_each = var.okta_groups
     content {
-      id       = data.okta_group.group_id[group.value.name].id
+      id       = data.okta_group.group_id[count.index].id
       priority = group.value.priority
     }
   }
