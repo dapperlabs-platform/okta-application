@@ -1,6 +1,6 @@
 data "okta_group" "group_id" {
   count = length(var.okta_groups)
-  name  = var.okta_group.names[count.index]
+  name  = var.okta_groups.name[count.index]
 }
 
 resource "okta_app_saml" "saml_app" {
