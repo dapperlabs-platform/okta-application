@@ -1,5 +1,5 @@
 data "okta_group" "group_id" {
-  for_each = var.okta_groups
+  for_each = { for k, v in var.okta_groups : k => v.name }
   name     = each.key
 }
 
