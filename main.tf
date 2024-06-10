@@ -39,7 +39,7 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
   dynamic "group" {
     for_each = var.okta_groups
     content {
-      id       = data.okta_group.group_id[group.vaule.name].id
+      id       = data.okta_group.group_id[group.value.name].id
       priority = group.value.priority
     }
   }
