@@ -29,9 +29,9 @@ variable "hide_web" {
   description = "Hide application on Okta Web dashboard"
 }
 
-variable "groups" {
+variable "okta_groups" {
   type = map(object({
-    id       = string
+    name     = string
     priority = number
   }))
 }

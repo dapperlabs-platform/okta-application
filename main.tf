@@ -1,10 +1,23 @@
+locals {
+  groups = {
+    "group" = {
+      id       = okta_group.group_id.id
+      priority = var.groups.priority
+    }
+  }
+}
+
+data "okta_group" "group_id" {
+  for_each = var.okta_groups
+  name     = each.value.name
+}
 
 resource "okta_app_saml" "saml_app" {
   label                    = var.name
   sso_url                  = var.sso_url
-  recipient                = var.recipient
-  destination              = var.destination
-  audience                 = var.audience
+  recipient                = var.recipient == "" ? var.sso_url : var.recipient
+  destination              = var.destination == "" ? var.sso_url : var.destination
+  audience                 = var.audience == "" ? var.sso_url : var.audience
   hide_web                 = var.hide_web
   subject_name_id_template = "$${user.userName}"
   subject_name_id_format   = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
@@ -33,7 +46,7 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
   app_id = okta_app_saml.saml_app.id
 
   dynamic "group" {
-    for_each = var.groups
+    for_each = local.groups
     content {
       id       = group.value.id
       priority = group.value.priority
