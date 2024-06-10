@@ -1,12 +1,3 @@
-locals {
-  groups = {
-    "group" = {
-      id       = okta_group.group_id.id
-      priority = var.groups.priority
-    }
-  }
-}
-
 data "okta_group" "group_id" {
   for_each = var.okta_groups
   name     = each.value.name
@@ -46,9 +37,9 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
   app_id = okta_app_saml.saml_app.id
 
   dynamic "group" {
-    for_each = local.groups
+    for_each = var.okta_groups
     content {
-      id       = group.value.id
+      id       = data.okta_group.group_id[group.key].id
       priority = group.value.priority
     }
   }
