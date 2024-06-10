@@ -1,5 +1,5 @@
 data "okta_group" "group_id" {
-  for_each = toset([for group in var.okta_groups : group.name])
+  for_each = var.okta_groups
   name     = each.key
 }
 
@@ -39,7 +39,7 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
   dynamic "group" {
     for_each = var.okta_groups
     content {
-      id       = data.okta_group.group_id[group.value.name].id
+      id       = data.okta_group.group_id[group.key].id
       priority = group.value.priority
     }
   }
@@ -67,4 +67,12 @@ resource "google_secret_manager_secret" "okta_app_cert" {
 resource "google_secret_manager_secret_version" "okta_app_cert_latest" {
   secret      = google_secret_manager_secret.okta_app_cert.id
   secret_data = base64encode("-----BEGIN CERTIFICATE-----\n${okta_app_saml.saml_app.certificate}\n-----END CERTIFICATE-----\n")
+}
+
+output "group_ids" {
+  value = { for k, v in data.okta_group.group_id : k => v.id }
+}
+
+output "group_priorities" {
+  value = { for k, v in var.okta_groups : k => v.priority }
 }
