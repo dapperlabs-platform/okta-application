@@ -33,9 +33,8 @@ variable "hide_web" {
 }
 
 variable "okta_groups" {
-  type = map(object({
-    name     = string
-    priority = number
-  }))
+  type        = list(string)
+  description = "list of Okta groups to assign to the app"
+  default     = []
 }
 
