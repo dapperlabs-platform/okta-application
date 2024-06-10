@@ -10,19 +10,16 @@ variable "sso_url" {
 
 variable "recipient" {
   type        = string
-  default     = var.sso_url
   description = "Recipient URL"
 }
 
 variable "destination" {
   type        = string
-  default     = var.sso_url
   description = "Destination URL"
 }
 
 variable "audience" {
   type        = string
-  default     = var.sso_url
   description = "Audience URL"
 }
 

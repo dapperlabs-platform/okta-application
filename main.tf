@@ -6,9 +6,9 @@ data "okta_group" "group_id" {
 resource "okta_app_saml" "saml_app" {
   label                    = var.name
   sso_url                  = var.sso_url
-  recipient                = var.recipient
-  destination              = var.destination
-  audience                 = var.audience
+  recipient                = var.recipient == null ? var.sso_url : var.recipient
+  destination              = var.destination == null ? var.sso_url : var.destination
+  audience                 = var.audience == null ? var.sso_url : var.audience
   hide_web                 = var.hide_web
   subject_name_id_template = "$${user.userName}"
   subject_name_id_format   = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
