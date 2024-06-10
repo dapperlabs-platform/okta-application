@@ -1,6 +1,6 @@
 data "okta_group" "group_id" {
-  for_each = toset(var.okta_groups)
-  name     = each.key
+  count = length(var.okta_groups)
+  name  = var.okta_groups[count.index]
 }
 
 resource "okta_app_saml" "saml_app" {
@@ -39,7 +39,7 @@ resource "okta_app_group_assignments" "app_groups_assignments" {
   dynamic "group" {
     for_each = toset(var.okta_groups)
     content {
-      id = data.okta_group.group_id[group].id
+      id = data.okta_group.group_id[count.index].id
     }
   }
 }
