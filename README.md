@@ -1,5 +1,5 @@
 # terraform-okta-application
-     Creates an Okta applications, assigns groups to the app and uploads the Okta Cert and SSO URL/http_post_binding to Google Secret Manager.
+     Creates an Okta application, assigns groups to the app and uploads the Okta Cert and SSO URL/http_post_binding to Google Secret Manager.
 
 ## Required Providers
 
