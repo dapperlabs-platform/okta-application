@@ -1,6 +1,6 @@
 data "okta_group" "group_id" {
-  for_each = var.okta_groups
-  name     = each.value.name
+  for_each = toset([for group in var.okta_groups : group.name])
+  name     = each.key
 }
 
 resource "okta_app_saml" "saml_app" {
